@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Side Form Validation</title>
+    <link rel="stylesheet" href="fontawesome-free-5.15.2-web/fontawesome-free-5.15.2-web/css/all.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #36d18e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container{
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgb(0,0,0,0.4);
+  width:400px;
+  max-width: 100%;
+}
+
+.header{
+  background-color: lightgray;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 1px solid gray;
+}
+
+.header h2{
+text-align: center;
+}
+
+form{
+  padding: 20px;
+}
+.form-control{
+  padding-top: 12px;
+  padding-bottom: 12px;
+  position: relative;
+}
+
+.form-control label{
+  display: block;
+  font-family: inherit;
+  font-weight: bold;
+}
+.form-control input{
+  display: block;
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid  #36d18e;
+}
+
+.form-control input::placeholder{
+  color: red;
+}
+
+.form-control i{
+  position: absolute;
+  top: 40px;
+  right: 15px;
+}
+
+.form-control i.fa-check-square{
+  color:#36d18e;
+  visibility: hidden;
+}
+
+.form-control i.fa-exclamation-circle{
+  color: red;
+  visibility: hidden;
+}
+
+.form-control small{
+  visibility: hidden;
+}
+
+button{
+  background-color: #36d18e;
+  border: #36d18e;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  width: 100%;
+  font-weight: bold;
+  padding: 5px;
+  margin-top: 15px;
+cursor: pointer;
+}
+button:hover{
+  background-color:green;
+  transition: 2s ease-in;
+}
+
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+        <h2>Create Account</h2>
+    </div>
+    <form class="form" id="form">
+        <div class="form-control">
+            <label>Username</label>
+            <input type="text" id="username" placeholder="enter your username">
+            <i class="fas fa-check-square" id="success_username"></i>
+            <i class="fas fa-exclamation-circle" id="error_username"></i>
+            <small class="username">Error message</small>
+        </div>
+
+        <div class="form-control">
+          <label>Email</label>
+          <input type="text" id="email" placeholder="enter your email">
+          <i class="fas fa-check-square" id="success_email"></i>
+          <i class="fas fa-exclamation-circle" id="error_email"></i>
+          <small class="email">Error message</small>
+      </div>
+
+      <div class="form-control">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="enter your password">
+        <i class="fas fa-check-square" id="success_password"></i>
+        <i class="fas fa-exclamation-circle" id="error_password"></i>
+        <small class="password">Error message</small>
+    </div>
+
+    <div class="form-control">
+      <label>Confirm Password</label>
+      <input type="password" id="passwordcheck" placeholder="retype your password">
+      <i class="fas fa-check-square" id="success_passwordcheck"></i>
+      <i class="fas fa-exclamation-circle" id="error_passwordcheck"></i>
+      <small class="passwordcheck">Error message</small>
+  </div>
+
+  <button>Sign up</button>
+
+    </form>
+  </div> 
+  
+  
+  <script>
+    const form=document.querySelector("form");
+    const username=document.querySelector("#username");
+    const email=document.querySelector("#email");
+    const password=document.querySelector("#password");
+    const passwordcheck=document.querySelector("#passwordcheck");
+
+    const small_username=document.querySelector(".username");
+    const small_email=document.querySelector(".email");
+    const small_password=document.querySelector(".password");
+    const small_passwordcheck=document.querySelector(".passwordcheck");
+
+    const success_username= document.getElementById("success_username");
+    const error_username=document.getElementById("error_username");
+    const success_email=document.getElementById("success_email");
+    const error_email= document.getElementById("error_email");
+    const success_password= document.getElementById("success_password");
+    const error_password= document.getElementById("error_password");
+    const success_passwordcheck= document.getElementById("success_passwordcheck");
+    const error_passwordcheck= document.getElementById("error_passwordcheck");
+
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      type();
+    });
+
+    function type(){
+      const usernameValue=username.value;
+      const emailValue=email.value;
+      const passwordValue=password.value;
+      const passwordcheckValue=passwordcheck.value;
+
+
+      const minMaxLength=/^[a-z]{6,8}$/i;
+      //const minMaxLength=/^[a-z]{6,}$/i; // at least 6 characher length
+      //const minMaxLength=/^[a-z]{6}$/i; //only 6 characters
+
+      if(usernameValue ==""){
+        small_username.style.visibility="visible";
+        small_username.innerText="Username cannot be blank";
+        error_username.style.visibility="visible";
+        success_username.style.visibility="hidden";
+        
+        
+      } else if(usernameValue.match(minMaxLength)){
+        small_username.style.visibility="visible";
+        small_username.innerText="Username accepted";
+        success_username.style.visibility="visible";
+        error_username.style.visibility="hidden";
+
+     } else {
+        small_username.style.visibility="visible";
+        small_username.innerText="Please insert 6-8 characters length username";
+        success_username.style.visibility="hidden";
+        error_username.style.visibility="visible";
+      }
+    
+
+      if(emailValue == ""){
+        small_email.style.visibility="visible";
+        small_email.innerText="Email cannot be blank";
+        error_email.style.visibility="visible";
+        success_email.style.visibility="hidden";
+
+      } else{
+        small_email.style.visibility="visible";
+        small_email.innerText="Ok";
+        success_email.style.visibility="visible";
+        error_email.style.visibility="hidden";
+      }
+
+
+      if(passwordValue == ""){
+        small_password.style.visibility="visible";
+        small_password.innerText="Passwordcannot be blank";
+        error_password.style.visibility="visible";
+        success_password.style.visibility="hidden";
+      } else{
+        small_password.style.visibility="visible";
+        small_password.innerText="Ok";
+        success_password.style.visibility="visible";
+        error_password.style.visibility="hidden";
+      }
+
+      if(passwordValue === passwordcheckValue){
+        small_passwordcheck.style.visibility="visible";
+        small_passwordcheck.innerText="Password match";
+        success_passwordcheck.style.visibility="visible";
+        error_passwordcheck.style.visibility="hidden";
+      } else{
+        small_passwordcheck.style.visibility="visible";
+        small_passwordcheck.innerText="Confirmed password does not match password";
+        error_passwordcheck.style.visibility="visible";
+        success_passwordcheck.style.visibility="hidden";
+      }
+      if(passwordcheckValue == ""){
+        small_passwordcheck.style.visibility="visible";
+        small_passwordcheck.innerText="Please retype your password";
+        error_passwordcheck.style.visibility="visible";
+        success_passwordcheck.style.visibility="hidden";
+      }
+
+
+    }
+  </script>
+</body>
+</html>
